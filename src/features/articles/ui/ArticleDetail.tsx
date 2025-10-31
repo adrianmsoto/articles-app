@@ -6,7 +6,7 @@ import {
   getArticles,
   updateArticles,
 } from "../api/articlesApi";
-import type { Article } from "../domain/article";
+import type { Article } from "../domain/types";
 import { queryClient } from "../../../core/api/queryClient";
 import { useEffect, useState } from "react";
 
@@ -55,6 +55,7 @@ const ArticleDetail = () => {
   return (
     <div className="min-w-[400px] max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-md">
       <Link
+        data-cy="back-to-articles"
         to="/articles"
         className="text-blue-600 hover:underline mb-4 inline-block"
       >
@@ -70,6 +71,7 @@ const ArticleDetail = () => {
         {[1, 2, 3, 4, 5].map((num) => (
           <button
             key={num}
+            data-cy={`rate-${num}`}
             onClick={() => handleRate(num)}
             className={`text-2xl transition ${
               num <= rating ? "text-yellow-400" : "text-gray-300"
@@ -89,6 +91,7 @@ const ArticleDetail = () => {
             onClick={() => {
               if (confirm("¿Eliminar este artículo?")) mutation.mutate();
             }}
+            data-cy="btn-delete-article"
             disabled={mutation.isPending}
             className="bg-red-400! text-white! rounded hover:bg-red-600"
           >

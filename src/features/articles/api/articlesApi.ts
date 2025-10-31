@@ -1,4 +1,4 @@
-import type { Article } from "../domain/article";
+import type { Article } from "../domain/types";
 
 // ToDo, make this automatic to allow run tests
 // const API_URL = import.meta.env.VITE_BIN_URL;

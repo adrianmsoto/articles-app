@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { getArticles } from "../api/articlesApi";
-import type { Article } from "../domain/article";
+import type { Article } from "../domain/types";
 
 export default function CategoryView() {
   const { category } = useParams();

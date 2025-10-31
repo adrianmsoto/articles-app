@@ -1,4 +1,4 @@
-import type { Article } from "../domain/article";
+import type { Article } from "../domain/types";
 import { useQuery } from "@tanstack/react-query";
 import { getArticles } from "../api/articlesApi";
 import { Link } from "react-router-dom";
@@ -30,7 +30,7 @@ const Articles = () => {
         );
   const { paginated, page, totalPages, next, prev } = usePagination(
     filtered,
-    6
+    40
   );
 
   const categories = [
@@ -51,7 +51,7 @@ const Articles = () => {
 
       <div className="flex justify-between mb-10 items-center">
         <select
-          className="border border-gray-300 rounded-lg p-2 w-[60%]"
+          className="border border-gray-300 rounded-lg p-2 w-[50%]"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
@@ -61,22 +61,26 @@ const Articles = () => {
             </option>
           ))}
         </select>
-        <Link to="/articles/new" className="inline-block p-2 rounded">
-          + Create artícule
+        <Link
+          data-cy="create-article-btn"
+          to="/articles/new"
+          className="inline-block p-2 rounded"
+        >
+          + Create new
         </Link>
       </div>
 
       <p className="text-xs text-gray-500 mb-2 text-left">
-        Mostrando {filtered.length} artículos
+        show {filtered.length} articles
       </p>
       {paginated.length > 0 ? (
-        <ul>
+        <ul className="grid grid-cols-2">
           {paginated.map((item, index) => {
             const isFav = favorites.some((f) => f.id === item.id);
             return (
               <li
                 key={index}
-                className="bg-white rounded-2xl shadow-md p-5 hover:shadow-lg transition-shadow flex flex-col justify-between my-2"
+                className="bg-white rounded-2xl shadow-md p-5 hover:shadow-lg transition-shadow flex flex-col justify-between m-2"
               >
                 <div>
                   <Link

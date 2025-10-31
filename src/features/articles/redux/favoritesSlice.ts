@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { Article } from "../../types/article";
+import type { Article } from "../domain/types";
 
 const saved = localStorage.getItem("favorites");
 const initialState: Article[] = saved ? JSON.parse(saved) : [];

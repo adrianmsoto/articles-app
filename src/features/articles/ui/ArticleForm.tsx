@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getArticles, updateArticles } from "../api/articlesApi";
-import type { Article } from "../domain/article";
+import type { Article } from "../domain/types";
 
 export default function ArticleForm() {
   const navigate = useNavigate();
@@ -50,14 +50,15 @@ export default function ArticleForm() {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setFormData({
       ...formData,
-      [name]: name === "rating" ? Number(value) : value,
+      [name]: type === "number" ? Number(value) : value,
     });
-    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -88,6 +89,7 @@ export default function ArticleForm() {
         <div>
           <input
             name="title"
+            data-cy="input-title"
             placeholder="Title"
             value={formData.title}
             onChange={handleChange}
@@ -101,6 +103,7 @@ export default function ArticleForm() {
         <div>
           <input
             name="category"
+            data-cy="input-category"
             placeholder="Category"
             value={formData.category}
             onChange={handleChange}
@@ -112,6 +115,7 @@ export default function ArticleForm() {
         </div>
         <input
           name="subcategory"
+          data-cy="input-subcategory"
           placeholder="Subcategory"
           value={formData.subcategory}
           onChange={handleChange}
@@ -120,6 +124,7 @@ export default function ArticleForm() {
         <div>
           <input
             name="author"
+            data-cy="input-author"
             placeholder="Author"
             value={formData.author}
             onChange={handleChange}
@@ -132,6 +137,7 @@ export default function ArticleForm() {
         <div>
           <textarea
             name="content"
+            data-cy="input-content"
             placeholder="Content"
             value={formData.content}
             onChange={handleChange}
@@ -150,19 +156,20 @@ export default function ArticleForm() {
         />
         <input
           name="rating"
-          type="number"
           placeholder="Rating"
           value={formData.rating}
           onChange={handleChange}
-          min={0}
-          max={5}
           className="border p-2 w-full rounded"
         />
 
         {mutation.isPending ? (
           <div>Saving data...</div>
         ) : (
-          <button type="submit" className="px-4 py-2 rounded">
+          <button
+            data-cy="submit-article"
+            type="submit"
+            className="px-4 py-2 rounded"
+          >
             {existing ? "Save changes" : "Create Article"}
           </button>
         )}
