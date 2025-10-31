@@ -30,7 +30,7 @@ const Articles = () => {
         );
   const { paginated, page, totalPages, next, prev } = usePagination(
     filtered,
-    10
+    6
   );
 
   const categories = [

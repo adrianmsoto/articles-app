@@ -61,6 +61,11 @@ const ArticleDetail = () => {
         ← Back to list
       </Link>
       <h3 className="text-2xl font-bold mb-3 text-gray-800">{data?.title}</h3>
+
+      <div className="my-4">
+        <div className="text-left">{data?.content}</div>
+        <p className="text-xs text-right">Author: {data?.author}</p>
+      </div>
       <div className="flex items-center gap-2 mb-6">
         {[1, 2, 3, 4, 5].map((num) => (
           <button
