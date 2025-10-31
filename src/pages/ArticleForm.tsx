@@ -20,7 +20,9 @@ export default function ArticleForm() {
     rating: 0,
   });
 
-  // Obtener lista actual
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Get List
   const articles = queryClient.getQueryData<Article[]>(["articles"]);
   const existing = articles?.find((a) => a.id === Number(id));
 
@@ -55,10 +57,24 @@ export default function ArticleForm() {
       ...formData,
       [name]: name === "rating" ? Number(value) : value,
     });
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validación simple
+    const newErrors: Record<string, string> = {};
+    if (!formData.title) newErrors.title = "Title is required";
+    if (!formData.category) newErrors.category = "Category is required";
+    if (!formData.author) newErrors.author = "Author is required";
+    if (!formData.content) newErrors.content = "Content is required";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return; // NO enviar si hay errores
+    }
+
     mutation.mutate(formData);
   };
 
@@ -69,20 +85,31 @@ export default function ArticleForm() {
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-          name="title"
-          placeholder="Title"
-          value={formData.title}
-          onChange={handleChange}
-          className="border p-2 w-full rounded"
-        />
-        <input
-          name="category"
-          placeholder="Category"
-          value={formData.category}
-          onChange={handleChange}
-          className="border p-2 w-full rounded"
-        />
+        <div>
+          <input
+            name="title"
+            placeholder="Title"
+            value={formData.title}
+            onChange={handleChange}
+            className="border p-2 w-full rounded"
+          />
+          {errors.title && (
+            <p className="text-red-400 text-xs text-left">{errors.title}</p>
+          )}
+        </div>
+
+        <div>
+          <input
+            name="category"
+            placeholder="Category"
+            value={formData.category}
+            onChange={handleChange}
+            className="border p-2 w-full rounded"
+          />
+          {errors.category && (
+            <p className="text-red-400 text-xs text-left">{errors.category}</p>
+          )}
+        </div>
         <input
           name="subcategory"
           placeholder="Subcategory"
@@ -90,20 +117,30 @@ export default function ArticleForm() {
           onChange={handleChange}
           className="border p-2 w-full rounded"
         />
-        <input
-          name="author"
-          placeholder="Author"
-          value={formData.author}
-          onChange={handleChange}
-          className="border p-2 w-full rounded"
-        />
-        <textarea
-          name="content"
-          placeholder="Content"
-          value={formData.content}
-          onChange={handleChange}
-          className="border p-2 w-full rounded"
-        />
+        <div>
+          <input
+            name="author"
+            placeholder="Author"
+            value={formData.author}
+            onChange={handleChange}
+            className="border p-2 w-full rounded"
+          />
+          {errors.author && (
+            <p className="text-red-400 text-xs text-left">{errors.author}</p>
+          )}
+        </div>
+        <div>
+          <textarea
+            name="content"
+            placeholder="Content"
+            value={formData.content}
+            onChange={handleChange}
+            className="border p-2 w-full rounded"
+          />
+          {errors.content && (
+            <p className="text-red-400 text-xs text-left">{errors.content}</p>
+          )}
+        </div>
         <input
           name="image"
           placeholder="Image URL"

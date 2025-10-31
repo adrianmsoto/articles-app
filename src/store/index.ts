@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import favoritesReducer from "./slices/favoritesSlice";
+import themeSlice from "./slices/themeSlice";
 
 export const store = configureStore({
   reducer: {
     favorites: favoritesReducer,
+    theme: themeSlice,
   },
 });
 

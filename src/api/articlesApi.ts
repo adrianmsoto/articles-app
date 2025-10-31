@@ -1,12 +1,10 @@
 import type { Article } from "../types/article";
 
-// Usa import.meta.env en Vite (navegador)
-const BIN_URL = import.meta.env.VITE_BIN_URL;
-const MASTER_KEY = import.meta.env.VITE_JSONBIN_KEY;
-const isTest =
-  typeof process !== "undefined" && process.env.NODE_ENV === "test";
-const API_URL = isTest ? process.env.VITE_BIN_URL : BIN_URL;
-const API_KEY = isTest ? process.env.VITE_JSONBIN_KEY : MASTER_KEY;
+// ToDo, make this automatic to allow run tests
+const API_URL = import.meta.env.VITE_BIN_URL;
+const API_KEY = import.meta.env.VITE_JSONBIN_KEY;
+// const API_URL = process.env.VITE_BIN_URL
+// const API_KEY = process.env.VITE_JSONBIN_KEY
 
 export const getArticles = async (): Promise<Article[]> => {
   const res = await fetch(API_URL, {
@@ -30,7 +28,7 @@ export const getArticleById = async (id: string): Promise<Article> => {
 };
 
 export const updateArticles = async (articles: Article[]) => {
-  const res = await fetch(BIN_URL, {
+  const res = await fetch(API_URL, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

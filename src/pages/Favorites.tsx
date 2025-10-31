@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 
 const Favorites = () => {
   const favorites = useSelector((state: RootState) => state.favorites);
-
-  console.log("🚀 ~ Favorites ~ favorites:", favorites);
   if (favorites.length === 0) return <p>Empty Favorites</p>;
   return (
     <div>

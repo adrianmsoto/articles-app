@@ -6,15 +6,13 @@ import Favorites from "./pages/Favorites";
 import ArticleForm from "./pages/ArticleForm";
 import MainLayout from "./layaouts/MainLayaout";
 import CategoryView from "./pages/CategoryView";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route
-          index
-          element={<h2 className="text-2xl font-bold">Articles app</h2>}
-        />
+        <Route index element={<Home />} />
         <Route path="articles" element={<Articles />} />
         <Route path="articles/new" element={<ArticleForm />} />
         <Route path="articles/edit/:id" element={<ArticleForm />} />
