@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
-import ArticleForm from "../features/articles/ui/ArticleForm";
+import ArticleForm from "../ui/ArticleForm";
 
 const queryClient = new QueryClient();
 
