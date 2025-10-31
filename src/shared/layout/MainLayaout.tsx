@@ -1,7 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
 import ThemeToggle from "../components/ThemeToggle";
 import { useSelector } from "react-redux";
-import type { RootState } from "../store";
+import type { RootState } from "../../core/store";
 
 export default function MainLayout() {
   const theme = useSelector((state: RootState) => state.theme.mode);

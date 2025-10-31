@@ -1,10 +1,12 @@
-import type { Article } from "../types/article";
+import type { Article } from "../domain/article";
 
 // ToDo, make this automatic to allow run tests
-const API_URL = import.meta.env.VITE_BIN_URL;
-const API_KEY = import.meta.env.VITE_JSONBIN_KEY;
+// const API_URL = import.meta.env.VITE_BIN_URL;
+// const API_KEY = import.meta.env.VITE_JSONBIN_KEY;
 // const API_URL = process.env.VITE_BIN_URL
 // const API_KEY = process.env.VITE_JSONBIN_KEY
+const API_URL = "https://api.jsonbin.io/v3/b/6904d2fcd0ea881f40c9b279";
+const API_KEY = "$2a$10$/dIgjdhgM.rEL/JdsuIi5uBXLUpyJrLDrTYliJwPJwVyfHKWA.AL2";
 
 export const getArticles = async (): Promise<Article[]> => {
   const res = await fetch(API_URL, {

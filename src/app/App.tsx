@@ -1,12 +1,12 @@
-import "./App.css";
+import "../App.css";
 import { Route, Routes } from "react-router-dom";
-import Articles from "./pages/Articles";
-import ArticleDetail from "./pages/ArticleDetail";
-import Favorites from "./pages/Favorites";
-import ArticleForm from "./pages/ArticleForm";
-import MainLayout from "./layaouts/MainLayaout";
-import CategoryView from "./pages/CategoryView";
-import Home from "./pages/Home";
+import Articles from "../features/articles/ui/Articles";
+import ArticleDetail from "../features/articles/ui/ArticleDetail";
+import ArticleForm from "../features/articles/ui/ArticleForm";
+import MainLayout from "../shared/layout/MainLayaout";
+import Home from "../features/home/ui/Home";
+import CategoryView from "../features/articles/ui/CategoryView";
+import Favorites from "../features/articles/ui/Favorites";
 
 function App() {
   return (

@@ -6,8 +6,8 @@ import {
   getArticles,
   updateArticles,
 } from "../api/articlesApi";
-import type { Article } from "../types/article";
-import { queryClient } from "../api/queryClient";
+import type { Article } from "../domain/article";
+import { queryClient } from "../../../core/api/queryClient";
 import { useEffect, useState } from "react";
 
 const ArticleDetail = () => {

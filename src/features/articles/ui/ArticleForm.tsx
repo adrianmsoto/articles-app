@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getArticles, updateArticles } from "../api/articlesApi";
-import type { Article } from "../types/article";
+import type { Article } from "../domain/article";
 
 export default function ArticleForm() {
   const navigate = useNavigate();

@@ -1,12 +1,12 @@
-import type { Article } from "../types/article";
+import type { Article } from "../domain/article";
 import { useQuery } from "@tanstack/react-query";
 import { getArticles } from "../api/articlesApi";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../store";
-import { toggleFavorite } from "../store/slices/favoritesSlice";
+import type { RootState } from "../../../core/store";
 import { useState } from "react";
-import { usePagination } from "../hooks/usePagination";
+import { toggleFavorite } from "../redux/favoritesSlice";
+import { usePagination } from "../../../core/hooks/usePagination";
 
 const Articles = () => {
   const dispatch = useDispatch();

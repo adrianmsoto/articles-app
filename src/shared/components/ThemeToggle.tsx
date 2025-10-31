@@ -1,7 +1,7 @@
 // src/components/ThemeToggle.tsx
 import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../store";
-import { toggleTheme } from "../store/slices/themeSlice";
+import type { RootState } from "../../core/store";
+import { toggleTheme } from "../../core/store/slices/themeSlice";
 
 const ThemeToggle = () => {
   const mode = useSelector((state: RootState) => state.theme.mode);

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import type { RootState } from "../store";
+import type { RootState } from "../core/store";
 import { Link } from "react-router-dom";
 
 const Favorites = () => {
