@@ -104,6 +104,7 @@ State management
   - domain/: business logic (services, types)
   - api/: adapters (JSONBin fetch/put)
   - ui/: React components and pages
+  - `tests/`: Unit and integration tests for that feature.
 * Benefits: easier testing, maintainable code, decoupled business logic from transport/adapters.
 
 ## Favorites & Ratings
