@@ -1,25 +1,26 @@
 /// <reference types="cypress" />
-describe("Caso de éxito: crear un artículo y verlo en el detalle", () => {
+
+describe("Success case: create an article and view its details", () => {
   const article = {
-    title: "Artículo de prueba Cypress",
+    title: "Cypress Test Article",
     category: "Test",
     subcategory: "E2E",
     author: "Cypress Bot",
-    content: "Este es un artículo de prueba creado automáticamente.",
+    content: "This is a test article automatically created by Cypress.",
     image: "test",
     rating: 3,
   };
 
-  it("crea un nuevo artículo y verifica su detalle", () => {
-    // 1️⃣ Visitar lista
+  it("creates a new article and verifies its detail page", () => {
+    //list page
     cy.visit("/articles");
     cy.contains("List of articles").should("exist");
 
-    // 2️⃣ Ir al formulario
+    //creation form
     cy.get('[data-cy="create-article-btn"]').click();
-    cy.contains(/nuevo artículo|create article|new article/i).should("exist");
+    cy.contains(/new article|create article/i).should("exist");
 
-    // 3️⃣ Llenar y enviar formulario
+    //Fill out and submit the form
     cy.get('input[name="title"]').type(article.title);
     cy.get('input[name="category"]').type(article.category);
     cy.get('input[name="subcategory"]').type(article.subcategory);
@@ -31,34 +32,31 @@ describe("Caso de éxito: crear un artículo y verlo en el detalle", () => {
       .type("{selectall}{backspace}3", { delay: 100, force: true });
     cy.get("form").submit();
 
-    // 4️⃣ Esperar redirección al listado
+    //Wait for redirect to the list
     cy.location("pathname").should("include", "/articles");
-
-    // 5️⃣ Verificar que aparece el artículo creado
     cy.contains(article.title).should("exist");
-
-    // 6️⃣ Entrar al detalle
     cy.contains(article.title).click();
 
-    // 7️⃣ Verificar el contenido
+    //Verify article content
     cy.contains(article.title).should("exist");
     cy.contains(article.author).should("exist");
     cy.contains(article.content).should("exist");
     cy.contains(`${article.rating}/5`).should("exist");
     cy.get('[data-cy="rate-5"]').click();
 
-    // 9️⃣ Volver al listado
+    //Go back to the list
     cy.get('[data-cy="back-to-articles"]').click();
     cy.location("pathname").should("include", "/articles");
 
-    // 🔟 Volver al detalle
+    //Go back to the detail page
     cy.contains(article.title).click();
 
-    // 1️⃣1️⃣ Verificar rating actualizado
+    //Verify updated rating
     cy.contains("5/5").should("exist");
 
+    // Delete
     cy.intercept("DELETE", "/api/articles/*").as("deleteArticle");
-    cy.on("window:confirm", () => true); // aceptar el confirm
+    cy.on("window:confirm", () => true); // accept confirmation dialog
     cy.intercept("PUT", "/api/articles").as("deleteArticle");
     cy.get('[data-cy="btn-delete-article"]').click();
     cy.contains(article.title).should("not.exist");

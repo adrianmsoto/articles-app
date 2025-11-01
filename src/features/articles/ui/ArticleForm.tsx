@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { getArticles, updateArticles } from "../api/articlesApi";
 import type { Article } from "../domain/types";
+import { saveArticle } from "../domain/articlesService";
 
 export default function ArticleForm() {
   const navigate = useNavigate();
@@ -29,20 +29,7 @@ export default function ArticleForm() {
   if (existing && formData.title === "") setFormData(existing);
 
   const mutation = useMutation({
-    mutationFn: async (newArticle: Article) => {
-      const articles = (await getArticles()) || [];
-      let updated: Article[];
-
-      if (existing) {
-        updated = articles.map((a) =>
-          a.id === newArticle.id ? newArticle : a
-        );
-      } else {
-        updated = [...articles, newArticle];
-      }
-
-      return await updateArticles(updated); // ✅ guarda en JSONBin
-    },
+    mutationFn: (newArticle: Article) => saveArticle(newArticle, existing),
     onSuccess: (data) => {
       queryClient.setQueryData(["articles"], data);
       navigate("/articles");
@@ -63,8 +50,7 @@ export default function ArticleForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Validación simple
+    // Validations
     const newErrors: Record<string, string> = {};
     if (!formData.title) newErrors.title = "Title is required";
     if (!formData.category) newErrors.category = "Category is required";

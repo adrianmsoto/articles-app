@@ -34,33 +34,42 @@ export default function CategoryView() {
       : filtered?.filter((a) => a.subcategory === selectedSub);
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <Link to="/articles" className="text-blue-600 hover:underline">
-        ← Back to all
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      {/* Back link */}
+      <Link
+        to="/articles"
+        className="text-blue-600 hover:underline flex items-center gap-1 mb-4"
+      >
+        <span>←</span> Back to all
       </Link>
 
-      <h2 className="text-3xl font-bold mt-4 mb-6 capitalize">{category}</h2>
+      {/* Category title */}
+      <h2 className="text-3xl sm:text-4xl font-bold mb-6 capitalize text-gray-800">
+        {category}
+      </h2>
 
+      {/* Subcategory filter buttons */}
       {subcategories.length > 0 && (
-        <div className="flex gap-2 mb-6 flex-wrap">
+        <div className="flex flex-wrap gap-3 mb-8">
           <button
             onClick={() => setSelectedSub("all")}
-            className={`px-3 py-1 rounded ${
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all border ${
               selectedSub === "all"
-                ? "bg-blue-500 text-blue-500"
-                : "bg-gray-200"
+                ? "bg-blue-600! text-white! border-blue-600!"
+                : "bg-gray-100! text-gray-700! hover:bg-gray-200!"
             }`}
           >
             All
           </button>
+
           {subcategories.map((sub) => (
             <button
               key={sub}
-              onClick={() => setSelectedSub(sub ? sub : "")}
-              className={`px-3 py-1 rounded ${
+              onClick={() => setSelectedSub(sub ?? "")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all border ${
                 selectedSub === sub
-                  ? "bg-blue-500 text-blue-500"
-                  : "bg-gray-200"
+                  ? "bg-blue-600! text-white! border-blue-600!"
+                  : "bg-gray-100! text-gray-700! hover:bg-gray-200!"
               }`}
             >
               {sub}
@@ -69,21 +78,28 @@ export default function CategoryView() {
         </div>
       )}
 
+      {/* Articles grid */}
       {visible && visible.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {visible.map((a) => (
             <Link
               key={a.id}
               to={`/articles/${a.id}`}
-              className="border rounded-lg p-4 hover:shadow-md transition"
+              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-gray-100 p-4 flex flex-col justify-between"
             >
-              <h3 className="font-semibold text-lg mb-2">{a.title}</h3>
-              <p className="text-sm text-gray-500">{a.subcategory}</p>
+              <div>
+                <h3 className="font-semibold text-lg mb-2 text-gray-800 hover:text-blue-600 transition-colors line-clamp-2">
+                  {a.title}
+                </h3>
+                <p className="text-sm text-gray-500 capitalize">
+                  {a.subcategory || "General"}
+                </p>
+              </div>
             </Link>
           ))}
         </div>
       ) : (
-        <p className="text-gray-500">No articles.</p>
+        <p className="text-gray-500 text-center mt-10">No articles found.</p>
       )}
     </div>
   );
