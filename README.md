@@ -68,12 +68,11 @@ Visit http://localhost:5173  -> to see the app running with Fast Refresh.
 | `npm run test`           | Run all Jest tests once. Covers unit and integration tests across components, slices, and hooks. |
 
 **Test files:**
-- `ArticleForm.test.tsx`  
-  - Tests the `ArticleForm` component for creating and editing articles.  
-  - Validates form submission, required field checks, and mutation handling with React Query.  
 - `ArticleFormFields.test.tsx`  
   - Focuses on individual form fields.  
   - Ensures inputs correctly update state and validate required fields.
+- `ArticleForm.test.tsx`  
+  - Validate if allow type in inputs
 
 #### Cypress (E2E)
 | Command                  | Description |
