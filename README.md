@@ -1,78 +1,153 @@
-## Articles App
+# Article Management App
 
-A minimal setup to get React working with Vite, TypeScript, React Query, and Redux.  
-Includes features for managing articles, ratings, favorites, and categories.
+A React application to manage articles with categories, subcategories, favorites, and ratings.  
+Built with a vertical slice + hexagonal-inspired architecture using React, Redux Toolkit, React Query, and TypeScript.
 
 ---
 
+## Table of Contents
+
+1. [Project Structure](#project-structure)  
+2. [Requirements](#requirements)  
+3. [Installation](#installation)  
+4. [Development](#development)  
+5. [Testing](#testing)  
+6. [Technical Decisions](#technical-decisions)  
+7. [Features](#features)  
+8. [Notes](#notes)
+
+---
+
+## Project Structure
+src/
+├─ app/ # App entry, providers, routes
+├─ core/ # Shared infrastructure, hooks, store
+├─ features/ # Vertical slices (articles, home, etc.)
+│ └─ articles/
+│ ├─ api/ # API adapters (JSONBin)
+│ ├─ domain/ # Business logic (services, types)
+│ ├─ redux/ # Slice for favorites
+│ ├─ ui/ # Components/pages
+│ └─ tests/ # Jest tests for form & integration
+├─ shared/ # Shared components, assets, layout
+cypress/ # E2E tests
+
+
+**Architecture notes:**  
+- **Vertical slice:** each feature contains UI, domain logic, API, redux slice, and tests.  
+- **Hexagonal-inspired:** domain (pure logic) is decoupled from adapters (API) and UI.  
+- **State separation:** React Query for server data, Redux for UI state like theme & favorites.
+
+## Requirements
+- Node.js 18+ - npm 9+ - Browser: Chrome / Firefox recommended  
+
+---
 ## Installation
 
 Clone the repository and install dependencies:
-
 ```bash
-git clone https://github.com/YOUR_USERNAME/articles-app.git
+git clone https://github.com/adrianmsoto/articles-app.git
 cd articles-app
 npm install
-# Create a .env file in the project root
+# ToDo: Create a .env file in the project root
 echo "VITE_BIN_URL=<YOUR_JSONBIN_URL>" >> .env
 echo "VITE_JSONBIN_KEY=<YOUR_JSONBIN_MASTER_KEY>" >> .env
 ```
-Replace <YOUR_JSONBIN_URL> and <YOUR_JSONBIN_MASTER_KEY> with your actual JSONBin info.
 
 ## Development
 Start the development server:
 ```bash
 npm run dev
 ```
-Visit http://localhost:5173
- to see the app running with Fast Refresh.
-
+Visit http://localhost:5173  -> to see the app running with Fast Refresh.
  
-## Running Tests
-Jest (Unit & Integration)
-```bash
-npm run test
-```
-Covers:
-Unit tests for key components (e.g., ArticleForm)
-Integration tests between React Query and Redux
+## Testing
+#### Jest (Unit & Integration)
+| Command                  | Description |
+|--------------------------|-------------|
+| `npm run test`           | Run all Jest tests once. Covers unit and integration tests across components, slices, and hooks. |
+
+**Test files:**
+- `ArticleForm.test.tsx`  
+  - Tests the `ArticleForm` component for creating and editing articles.  
+  - Validates form submission, required field checks, and mutation handling with React Query.  
+- `ArticleFormFields.test.tsx`  
+  - Focuses on individual form fields.  
+  - Ensures inputs correctly update state and validate required fields.
+
+#### Cypress (E2E)
+| Command                  | Description |
+|--------------------------|-------------|
+| `npm run cypress:open`   | Opens the interactive Cypress runner for manual test execution and debugging. |
+| `npm run cypress:run`    | Runs all Cypress tests headlessly, suitable for CI/CD pipelines. |
+
+**Test files:**
+- `article-form-validation.cy.ts`  
+  - Edge case test: ensures the form does not submit when required fields are empty.  
+- `articles-error.cy.ts`  
+  - Simulates server errors or missing articles to verify proper error handling in the UI.  
+- `articles-success.cy.ts`  
+  - Full success flow: creating a new article, rating it, adding to favorites, editing, and deleting.  
+  - Confirms the integration between UI, React Query, and Redux for state management.
+
+> These tests together ensure coverage of critical workflows and edge cases, validating both unit logic and end-to-end user interactions.
 
 
 ## Technical Decisions
-State Management
-Local storages: to Manages Favorites
+State management
+- React Query: manages server state (articles fetching, caching, updates). Optimistic updates used for rating/favorites.
+- Redux Toolkit: manages UI state (theme toggle, favorites). Favorites are persisted in Redux for instant feedback, while articles remain authoritative in the server/mock API.
+- Local storages: to Manages Favorites
 
-React Query: Manages server-side state:
-* Fetching, updating, and caching articles
-* Article ratings
-* Category filtering
+## Architecture
+* Vertical slices: each feature in src/features/<name> contains ui/, api/, domain/, redux/, tests/.
+* Hexagonal-inspired separation:
+  - domain/: business logic (services, types)
+  - api/: adapters (JSONBin fetch/put)
+  - ui/: React components and pages
+* Benefits: easier testing, maintainable code, decoupled business logic from transport/adapters.
 
-Rationale: Redux handles synchronous UI state, React Query handles asynchronous server state with caching and background updates.
+## Favorites & Ratings
+Favorites persisted in Redux for fast UI feedback.
+Ratings handled via React Query updates to mock server (JSONBin).
 
+## Tests
+- Unit: React Testing Library for ArticleForm validation.
+- Integration: simulate React Query ↔ Redux interaction (creating articles and updating favorites).
+- E2E: Cypress covers success flows and error cases (404, missing articles).
 
-
-## Project Architecture
-
-Inspired by vertical slice / hexagonal architecture:
-- Domain: Core business logic, types, models (types/article.ts)
-- Application: Features like articlesApi.ts, React Query hooks, Redux slices
-- Infrastructure / Adapters: HTTP requests, localStorage, React Router, UI components
-
-Benefits: Business logic is separated from adapters and UI, making it easy to swap or add new features without affecting the domain logic.
-
-
-
-## Features Summary
-Authentication: Handled via Redux / local storage (if implemented)
-Favorites: Stored in Redux for fast toggling
-Ratings: Managed via React Query with optimistic updates
-Categories: Filtered via React Query with optional subcategories
-
+---
+## Features
+- List articles with pagination and category/subcategory filters.
+- Create new articles & edit existing ones.
+- Detail view with full information, ratings, and favorites.
+- Persist favorites and ratings.
+- Responsive UI for desktop & mobile.
+- Image previews with placeholder/fallback.
+- Error handling for missing or broken data.
 
 ## Notes
+- Edge cases handled: missing articles, invalid form submissions.
+- UI & accessibility: buttons with proper labels, hover effects, responsive grid layout.
 
-Ensure .env is configured before running the app
 
-Uses Vite with Fast Refresh and TypeScript strict mode
+## Commands Summary
 
-ESLint + Prettier configured for code quality and consistency
+| Command                 | Description                        |
+|-------------------------|------------------------------------|
+| `npm run dev`           | Start development server           |
+| `npm run build`         | Build production                   |
+| `npm run preview`       | Preview production build           |
+| `npm run test`          | Run Jest tests once                |
+| `npm run test:watch`    | Jest watch mode                    |
+| `npm run cypress:open`  | Open Cypress interactive runner    |
+| `npm run cypress:run`   | Run Cypress tests headlessly       |
+| `npm run lint`          | Run ESLint                         |
+| `npm run format`        | Format code with Prettier          |
+
+
+### Author
+Adrian Marin Soto  
+
+
+
