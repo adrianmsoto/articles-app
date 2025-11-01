@@ -19,10 +19,12 @@ Built with a vertical slice + hexagonal-inspired architecture using React, Redux
 ---
 
 ## Project Structure
+
+```text
 src/
 ├─ app/ # App entry, providers, routes
 ├─ core/ # Shared infrastructure, hooks, store
-├─ features/ # Vertical slices (articles, home, etc.)
+├─ features/ # Vertical slices (articles and home)
 │ └─ articles/
 │ ├─ api/ # API adapters (JSONBin)
 │ ├─ domain/ # Business logic (services, types)
@@ -30,7 +32,10 @@ src/
 │ ├─ ui/ # Components/pages
 │ └─ tests/ # Jest tests for form & integration
 ├─ shared/ # Shared components, assets, layout
+public/
 cypress/ # E2E tests
+```
+
 
 
 **Architecture notes:**  
