@@ -33,8 +33,24 @@ const ArticleDetail = () => {
     if (data?.rating) setRating(data.rating);
   }, [data]);
 
+  const renderLink = (
+    <Link
+      data-cy="back-to-articles"
+      to="/articles"
+      className="text-blue-600 hover:underline mb-4 inline-block"
+    >
+      ← Back to list
+    </Link>
+  );
+
   if (isLoading) return <p>Loading article...</p>;
-  if (isError) return <p>Error: {error.message}</p>;
+  if (isError)
+    return (
+      <div>
+        {renderLink}
+        <p>Error: {error.message}</p>
+      </div>
+    );
 
   const handleRate = async (value: number) => {
     setRating(value);
@@ -54,13 +70,7 @@ const ArticleDetail = () => {
   };
   return (
     <div className="min-w-[400px] max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-md">
-      <Link
-        data-cy="back-to-articles"
-        to="/articles"
-        className="text-blue-600 hover:underline mb-4 inline-block"
-      >
-        ← Back to list
-      </Link>
+      {renderLink}
       <h3 className="text-2xl font-bold mb-3 text-gray-800">{data?.title}</h3>
 
       <div className="my-4">
